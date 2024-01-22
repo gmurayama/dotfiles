@@ -1,4 +1,4 @@
-if true then
+if not vim.g.vscode then
   return {
     { import = "lazyvim.plugins.extras.lang.go" },
     { import = "lazyvim.plugins.extras.lang.json" },
