@@ -3,7 +3,7 @@
 
 # Source multiple configuration files
 if [ -d ~/.config/zsh ]; then
-  for zsh_cfg_file in ~/.config/zsh; do
+  for zsh_cfg_file in ~/.config/zsh/*; do
     source $zsh_cfg_file;
   done
   unset zsh_cfg_file;
