@@ -9,4 +9,7 @@ if vim.g.vscode then
   vim.keymap.del("n", "]b")
   vim.keymap.del("n", "<leader>bb")
   vim.keymap.del("n", "<leader>`")
+else
+  vim.keymap.set("n", "]<tab>", "<Cmd>BufferLineCycleNext<CR>", { desc = "Next Tab" })
+  vim.keymap.set("n", "[<tab>", "<Cmd>BufferLineCyclePrev<CR>", { desc = "Prev Tab" })
 end
