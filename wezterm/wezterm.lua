@@ -15,7 +15,16 @@ config.font = wezterm.font_with_fallback({
 	"Fira Code",
 })
 
-config.font_size = 15.0
+config.font_size = 14.0
+
+local is_windows = function()
+	return wezterm.target_triple:find("windows") ~= nil
+end
+
+if is_windows() then
+	config.default_domain = "WSL:Arch"
+	-- config.treat_left_ctrlalt_as_altgr = true
+end
 
 -- and finally, return the configuration to wezterm
 return config
