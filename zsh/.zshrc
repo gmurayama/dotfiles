@@ -8,8 +8,11 @@ fi
 
 # ASDF
 . "$HOME/.asdf/asdf.sh"
-if [[ -z $GOROOT ]]; then
+if [[ -z $GOROOT ]] && [[ -n $(asdf plugin list | grep golang) ]]; then
   . ~/.asdf/plugins/golang/set-env.zsh
+fi
+if [[ -z $JAVA_HOME ]] && [[ -n $(asdf plugin list | grep java) ]]; then
+  . ~/.asdf/plugins/java/set-java-home.zsh
 fi
 
 # Path to your oh-my-zsh installation.
