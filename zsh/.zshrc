@@ -34,4 +34,12 @@ export LANG=en_US.UTF-8
 export EDITOR='vim'
 
 # Personal aliases
+function alias_if_cmd_exists() {
+  if command -v $2 &> /dev/null; then
+    alias $1
+  fi
+}
+
 alias vim="nvim"
+alias_if_cmd_exists ls="eza --icons" eza
+alias_if_cmd_exists cat="bat" bat
