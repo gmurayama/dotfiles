@@ -43,3 +43,6 @@ function alias_if_cmd_exists() {
 alias vim="nvim"
 alias_if_cmd_exists ls="eza --icons" eza
 alias_if_cmd_exists cat="bat" bat
+
+eval "$(zoxide init --cmd cd zsh)"
+eval "$(fzf --zsh)"
