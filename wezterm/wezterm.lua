@@ -19,9 +19,17 @@ config.switch_to_last_active_tab_when_closing_tab = true
 
 config.background = {
 	{
-		source = { Color = "#112431" },
+		source = { Color = "#152535" },
 		hsb = { brightness = 0.17 },
-		height = "100%",
+		height = "50%",
+		width = "100%",
+		-- opacity = 0.75,
+	},
+	{
+		source = { Color = "#0c0d12" },
+		hsb = { brightness = 0.17 },
+		vertical_offset = "50%",
+		height = "50%",
 		width = "100%",
 		-- opacity = 0.75,
 	},
