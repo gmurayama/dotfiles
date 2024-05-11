@@ -5,7 +5,17 @@ if not vim.g.vscode then
     { import = "lazyvim.plugins.extras.lang.rust" },
     { import = "lazyvim.plugins.extras.lang.typescript" },
     { import = "lazyvim.plugins.extras.linting.eslint" },
+    { import = "lazyvim.plugins.extras.coding.copilot" },
     { import = "lazyvim.plugins.extras.dap.core" },
+    {
+      "folke/tokyonight.nvim",
+      opts = {
+        transparent = true,
+        styles = {
+          sidebars = "transparent",
+        },
+      },
+    },
     {
       "nvim-neo-tree/neo-tree.nvim",
       opts = {
@@ -43,6 +53,14 @@ if not vim.g.vscode then
           separator_style = "slant",
           show_buffer_close_icons = false,
           show_close_icon = false,
+        },
+      },
+    },
+    {
+      "nvim-lualine/lualine.nvim",
+      opts = {
+        sections = {
+          lualine_z = {},
         },
       },
     },
