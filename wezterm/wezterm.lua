@@ -46,8 +46,30 @@ config.background = {
 	},
 }
 
+config.keys = {
+	{
+		key = "?",
+		mods = "CTRL|SHIFT|ALT",
+		action = wezterm.action.SplitVertical({ domain = "CurrentPaneDomain" }),
+	},
+	{
+		key = ">",
+		mods = "CTRL|SHIFT|ALT",
+		action = wezterm.action.SplitHorizontal({ domain = "CurrentPaneDomain" }),
+	},
+}
+
 if utils.is_windows() then
 	config.default_domain = "WSL:Arch"
+	config.default_prog = { "powershell.exe" }
+
+	table.insert(config.keys, {
+		key = "w",
+		mods = "CTRL|SHIFT",
+		action = wezterm.action.SpawnTab({
+			DomainName = "local",
+		}),
+	})
 end
 
 -- Custom config
