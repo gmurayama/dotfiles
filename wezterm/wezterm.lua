@@ -16,6 +16,8 @@ config.window_background_opacity = 0.96
 
 config.show_tab_index_in_tab_bar = false
 config.switch_to_last_active_tab_when_closing_tab = true
+config.use_fancy_tab_bar = false
+config.tab_max_width = 20
 
 config.background = {
 	{
@@ -58,6 +60,55 @@ config.keys = {
 		action = wezterm.action.SplitHorizontal({ domain = "CurrentPaneDomain" }),
 	},
 }
+
+local function basename(s)
+	return string.gsub(s, "(.*[/\\])(.*)", "%2")
+end
+
+wezterm.on("format-tab-title", function(tab, tabs, panes, conf, hover, max_width)
+	local background = "#65737E"
+	local foreground = "#F0F2F5"
+	local edge_background = "#333333"
+
+	if tab.is_active or hover then
+		background = "#E5C07B"
+		foreground = "#282C34"
+	end
+	local edge_foreground = background
+
+	local process_name = tab.active_pane.foreground_process_name
+	local exec_name = basename(process_name):gsub("%.exe$", "")
+	local panel_title = tab.active_pane.title:gsub("%.exe$", "")
+
+	local icon
+	if exec_name == "wsl" or exec_name == "wslhost" then
+		icon = utf8.char(0xf17c)
+	else
+		icon = utf8.char(0xf17a)
+	end
+
+	local title = icon .. " " .. panel_title
+
+	-- ensure that the titles fit in the available space,
+	-- and that we have room for the edges.
+	local max = config.tab_max_width - 4
+	if #title > max then
+		title = wezterm.truncate_right(title, max) .. "…"
+	end
+
+	return {
+		{ Background = { Color = edge_background } },
+		{ Foreground = { Color = edge_foreground } },
+		{ Text = " " },
+		{ Background = { Color = background } },
+		{ Foreground = { Color = foreground } },
+		{ Attribute = { Intensity = tab.is_active and "Bold" or "Normal" } },
+		{ Text = "" .. title .. "" },
+		{ Background = { Color = edge_background } },
+		{ Foreground = { Color = edge_foreground } },
+		{ Text = "" },
+	}
+end)
 
 if utils.is_windows() then
 	config.default_domain = "WSL:Arch"
