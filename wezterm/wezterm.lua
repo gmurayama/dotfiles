@@ -1,5 +1,6 @@
 local wezterm = require("wezterm")
 local utils = require("utils")
+local utf8 = require("utf8")
 
 local config = {}
 if wezterm.config_builder then
@@ -112,7 +113,7 @@ end)
 
 if utils.is_windows() then
 	config.default_domain = "WSL:Arch"
-	config.default_prog = { "powershell.exe" }
+	config.default_prog = { "C:\\Program Files\\Git\\bin\\bash.exe", "-i", "-l" }
 
 	table.insert(config.keys, {
 		key = "w",
