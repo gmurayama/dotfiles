@@ -73,7 +73,7 @@ end
 wezterm.on("toggle-background", function(window, pane)
 	local overrides = window:get_config_overrides() or {}
 	local next = next
-	if next(overrides.background) == nil then
+	if overrides.background and next(overrides.background) == nil then
 		overrides.background = {
 			{
 				source = { Color = "#152535" },
