@@ -12,8 +12,7 @@ config.font = wezterm.font_with_fallback({
 	"Fira Code",
 })
 
-config.color_scheme = "duskfox"
-config.window_background_opacity = 0.96
+config.color_scheme = "Adventure"
 
 config.show_tab_index_in_tab_bar = false
 config.switch_to_last_active_tab_when_closing_tab = true
@@ -60,11 +59,52 @@ config.keys = {
 		mods = "CTRL|SHIFT|ALT",
 		action = wezterm.action.SplitHorizontal({ domain = "CurrentPaneDomain" }),
 	},
+	{
+		key = "P",
+		mods = "CTRL|SHIFT",
+		action = wezterm.action.EmitEvent("toggle-background"),
+	},
 }
 
 local function basename(s)
 	return string.gsub(s, "(.*[/\\])(.*)", "%2")
 end
+
+wezterm.on("toggle-background", function(window, pane)
+	local overrides = window:get_config_overrides() or {}
+	local next = next
+	if next(overrides.background) == nil then
+		overrides.background = {
+			{
+				source = { Color = "#152535" },
+				hsb = { brightness = 0.17 },
+				height = "50%",
+				width = "100%",
+			},
+			{
+				source = { Color = "#0c0d12" },
+				hsb = { brightness = 0.17 },
+				vertical_offset = "50%",
+				height = "50%",
+				width = "100%",
+			},
+			{
+				source = { File = wezterm.config_dir .. "\\bg.jpg" },
+				horizontal_align = "Center",
+				vertical_align = "Middle",
+				hsb = { brightness = 0.17 },
+				repeat_x = "NoRepeat",
+				repeat_y = "NoRepeat",
+				width = "100%",
+				height = "Contain",
+			},
+		}
+	else
+		overrides.background = {}
+	end
+	print(overrides)
+	window:set_config_overrides(overrides)
+end)
 
 wezterm.on("format-tab-title", function(tab, tabs, panes, conf, hover, max_width)
 	local background = "#65737E"
