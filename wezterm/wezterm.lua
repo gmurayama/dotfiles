@@ -13,7 +13,6 @@ config.font = wezterm.font_with_fallback({
 })
 
 config.color_scheme = "Adventure"
-
 config.show_tab_index_in_tab_bar = false
 config.switch_to_last_active_tab_when_closing_tab = true
 config.use_fancy_tab_bar = false
@@ -25,7 +24,6 @@ config.background = {
 		hsb = { brightness = 0.17 },
 		height = "50%",
 		width = "100%",
-		-- opacity = 0.75,
 	},
 	{
 		source = { Color = "#0c0d12" },
@@ -33,7 +31,6 @@ config.background = {
 		vertical_offset = "50%",
 		height = "50%",
 		width = "100%",
-		-- opacity = 0.75,
 	},
 	{
 		source = { File = wezterm.config_dir .. "/bg.jpg" },
@@ -44,7 +41,6 @@ config.background = {
 		repeat_y = "NoRepeat",
 		width = "100%",
 		height = "Contain",
-		-- opacity = 0.85,
 	},
 }
 
@@ -99,10 +95,19 @@ wezterm.on("toggle-background", function(window, pane)
 				height = "Contain",
 			},
 		}
+		overrides.window_background_gradient = nil
 	else
 		overrides.background = {}
+		overrides.window_background_gradient = {
+			orientation = "Vertical",
+			colors = {
+				"#040c12",
+				"#03060a",
+				"#020305",
+				"#020203",
+			},
+		}
 	end
-	print(overrides)
 	window:set_config_overrides(overrides)
 end)
 
