@@ -60,7 +60,7 @@ config.keys = {
 		action = wezterm.action.SplitHorizontal({ domain = "CurrentPaneDomain" }),
 	},
 	{
-		key = "P",
+		key = "H",
 		mods = "CTRL|SHIFT",
 		action = wezterm.action.EmitEvent("toggle-background"),
 	},
