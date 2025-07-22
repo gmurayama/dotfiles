@@ -85,7 +85,7 @@ wezterm.on("toggle-background", function(window, pane)
 				width = "100%",
 			},
 			{
-				source = { File = wezterm.config_dir .. "\\bg.jpg" },
+				source = { File = wezterm.config_dir .. "/bg.jpg" },
 				horizontal_align = "Center",
 				vertical_align = "Middle",
 				hsb = { brightness = 0.17 },
@@ -122,15 +122,18 @@ wezterm.on("format-tab-title", function(tab, tabs, panes, conf, hover, max_width
 	end
 	local edge_foreground = background
 
-	local process_name = tab.active_pane.foreground_process_name
-	local exec_name = basename(process_name):gsub("%.exe$", "")
 	local panel_title = tab.active_pane.title:gsub("%.exe$", "")
 
 	local icon
-	if exec_name == "wsl" or exec_name == "wslhost" then
+
+	if utils.current_target() == utils.TargetPlatform.Linux then
 		icon = utf8.char(0xf17c)
-	else
+	elseif utils.current_target() == utils.TargetPlatform.Windows then
 		icon = utf8.char(0xf17a)
+	elseif utils.current_target() == utils.TargetPlatform.Mac then
+		icon = utf8.char(0xf8ff)
+	else
+		icon = utf8.char(0xfe0f)
 	end
 
 	local title = icon .. " " .. panel_title
