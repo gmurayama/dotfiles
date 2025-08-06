@@ -70,4 +70,7 @@ return {
       inlay_hints = { enabled = false },
     },
   },
+  {
+    "itchyny/vim-qfedit",
+  },
 }
