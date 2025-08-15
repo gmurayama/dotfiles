@@ -4,16 +4,21 @@ if [ -d ~/.config/zsh ]; then
     source $zsh_cfg_file;
   done
   unset zsh_cfg_file;
+
 fi
 
 # ASDF
 export ASDF_DATA_DIR="${HOME}/.asdf"
 export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
+
 if [[ -z $GOROOT ]] && [[ -n $(asdf plugin list | grep golang) ]]; then
   . ~/.asdf/plugins/golang/set-env.zsh
 fi
 if [[ -z $JAVA_HOME ]] && [[ -n $(asdf plugin list | grep java) ]]; then
   . ~/.asdf/plugins/java/set-java-home.zsh
+fi
+if [[ -z $DOTNET_ROOT ]] && [[ -n $(asdf plugin list | grep dotnet-core) ]]; then
+  . ~/.asdf/plugins/dotnet-core/set-dotnet-home.zsh
 fi
 
 # Path to your oh-my-zsh installation.
