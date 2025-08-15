@@ -1,3 +1,7 @@
+if vim.g.vscode then
+  return {}
+end
+
 return {
   {
     "folke/tokyonight.nvim",
@@ -24,18 +28,6 @@ return {
           hide_dotfiles = false,
           hide_hidden = false,
           hide_by_name = { ".git", "node_modules" },
-        },
-      },
-    },
-  },
-  {
-    "nvim-telescope/telescope.nvim",
-    opts = {
-      pickers = {
-        live_grep = {
-          additional_args = function(_)
-            return { "--hidden" }
-          end,
         },
       },
     },
@@ -72,5 +64,14 @@ return {
   },
   {
     "itchyny/vim-qfedit",
+  },
+  {
+    "ibhagwan/fzf-lua",
+    opts = {
+      grep = {
+        hidden = true,
+        rg_opts = "--column --line-number --no-heading --color=always --smart-case --max-columns=4096 -g '!.git/' -e",
+      },
+    },
   },
 }
