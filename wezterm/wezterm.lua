@@ -62,10 +62,6 @@ config.keys = {
 	},
 }
 
-local function basename(s)
-	return string.gsub(s, "(.*[/\\])(.*)", "%2")
-end
-
 wezterm.on("toggle-background", function(window, pane)
 	local overrides = window:get_config_overrides() or {}
 	local next = next
