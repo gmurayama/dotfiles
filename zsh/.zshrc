@@ -7,7 +7,8 @@ if [ -d ~/.config/zsh ]; then
 fi
 
 # ASDF
-. "$HOME/.asdf/asdf.sh"
+export ASDF_DATA_DIR="${HOME}/.asdf"
+export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
 if [[ -z $GOROOT ]] && [[ -n $(asdf plugin list | grep golang) ]]; then
   . ~/.asdf/plugins/golang/set-env.zsh
 fi
