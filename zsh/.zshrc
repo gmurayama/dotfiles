@@ -39,6 +39,35 @@ source $ZSH/oh-my-zsh.sh
 export LANG=en_US.UTF-8
 export EDITOR='nvim'
 
+function fman() {
+  manpage="echo {} | sed 's/[()]/ /g' | awk '{print \$2 \" \" \$1}'"
+  tldr="echo {} | sed 's/[()]/ /g' | awk '{print \$1}'"
+  batman="${manpage} | xargs -r man | bat --language=man --plain --color always --theme=\"Monokai Extended\""
+   man -k . | sort \
+   | awk -v cyan=$(tput setaf 6) -v blue=$(tput setaf 4) -v res=$(tput sgr0) -v bld=$(tput bold) '{ $1=cyan bld $1; $2=res blue $2; } 1' \
+   | fzf  \
+      -q "$1" \
+      --ansi \
+      --tiebreak=begin \
+      --prompt=' Man > '  \
+      --preview-window '50%,rounded,<50(up,85%,border-bottom)' \
+      --preview "${batman}" \
+      --bind "enter:execute(${manpage} | xargs man)" \
+      --bind "alt-m:+change-preview(${batman})+change-prompt( Man > )" \
+      --bind "alt-t:+change-preview(${tldr} | xargs tldr --color=always)+change-prompt(ﳁ TLDR > )"
+}
+export MANPAGER="sh -c 'col -bx | bat -l man -p --paging always'"
+
+function rgr() {
+  rg --color=always --line-number --no-heading --smart-case "${*:-}" |
+  fzf --ansi \
+      --color "hl:-1:underline,hl+:-1:underline:reverse" \
+      --delimiter : \
+      --preview 'bat --color=always {1} --highlight-line {2}' \
+      --preview-window 'up,60%,border-bottom,+{2}+3/3,~3' \
+      --bind 'enter:become(nvim {1} +{2})'
+}
+
 # Personal aliases
 function alias_if_cmd_exists() {
   if command -v $2 &> /dev/null; then
@@ -48,7 +77,6 @@ function alias_if_cmd_exists() {
 
 alias vim="nvim"
 alias_if_cmd_exists ls="eza --icons" eza
-alias_if_cmd_exists cat="bat" bat
 
 eval "$(zoxide init --cmd cd zsh)"
 eval "$(fzf --zsh)"
