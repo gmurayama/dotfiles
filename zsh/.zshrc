@@ -78,5 +78,5 @@ function alias_if_cmd_exists() {
 alias vim="nvim"
 alias_if_cmd_exists ls="eza --icons" eza
 
-eval "$(zoxide init --cmd cd zsh)"
 eval "$(fzf --zsh)"
+eval "$(zoxide init --cmd cd zsh)"
