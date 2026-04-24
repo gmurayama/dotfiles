@@ -16,7 +16,7 @@ config.color_scheme = "Adventure"
 config.show_tab_index_in_tab_bar = false
 config.switch_to_last_active_tab_when_closing_tab = true
 config.use_fancy_tab_bar = false
-config.tab_max_width = 20
+config.tab_max_width = 24
 
 config.background = {
 	{
@@ -133,13 +133,21 @@ wezterm.on("format-tab-title", function(tab, tabs, panes, conf, hover, max_width
 	end
 
 	local title = icon .. " " .. panel_title
-
-	-- ensure that the titles fit in the available space,
-	-- and that we have room for the edges.
-	local max = config.tab_max_width - 4
-	if #title > max then
-		title = wezterm.truncate_right(title, max) .. "…"
+	local suffix = ""
+	if tab.active_pane.is_zoomed then
+		suffix = " [+]"
 	end
+
+	-- ensure that the titles fit in the available space and that we have room for the edges.
+	-- the edges are 3 char (whitespace, left corner and right corner)
+	local max = config.tab_max_width - #suffix - 3
+
+	if #title > max then
+		suffix = "..." .. string.sub(suffix, 2)
+		max = max - #suffix
+	end
+
+	title = wezterm.truncate_right(title, max) .. suffix
 
 	return {
 		{ Background = { Color = edge_background } },
@@ -148,7 +156,7 @@ wezterm.on("format-tab-title", function(tab, tabs, panes, conf, hover, max_width
 		{ Background = { Color = background } },
 		{ Foreground = { Color = foreground } },
 		{ Attribute = { Intensity = tab.is_active and "Bold" or "Normal" } },
-		{ Text = "" .. title .. "" },
+		{ Text = title },
 		{ Background = { Color = edge_background } },
 		{ Foreground = { Color = edge_foreground } },
 		{ Text = "" },
