@@ -12,11 +12,14 @@ config.font = wezterm.font_with_fallback({
 	"Fira Code",
 })
 
+config.enable_wayland = true
 config.color_scheme = "Adventure"
 config.show_tab_index_in_tab_bar = false
 config.switch_to_last_active_tab_when_closing_tab = true
 config.use_fancy_tab_bar = false
 config.tab_max_width = 24
+
+config.front_end = "WebGpu"
 
 config.background = {
 	{
