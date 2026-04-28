@@ -7,9 +7,23 @@ if [ -d ~/.config/zsh ]; then
 
 fi
 
+# Path to your oh-my-zsh installation.
+export ZSH="$HOME/.oh-my-zsh"
+export KUBECONFIG="$HOME/.kube/config"
+
+# Set name of the theme to load --- if set to "random", it will
+# load a random theme each time oh-my-zsh is loaded, in which case,
+# to know which specific one was loaded, run: echo $RANDOM_THEME
+# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
+ZSH_THEME="af-magic"
+
+# ZSH Plugins
+plugins=(git asdf)
+
+source $ZSH/oh-my-zsh.sh
+
 # ASDF
 export ASDF_DATA_DIR="${HOME}/.asdf"
-export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
 
 if [[ -z $GOROOT ]] && [[ -n $(asdf plugin list | grep golang) ]]; then
   . ~/.asdf/plugins/golang/set-env.zsh
@@ -21,23 +35,14 @@ if [[ -z $DOTNET_ROOT ]] && [[ -n $(asdf plugin list | grep dotnet-core) ]]; the
   . ~/.asdf/plugins/dotnet-core/set-dotnet-home.zsh
 fi
 
-# Path to your oh-my-zsh installation.
-export ZSH="$HOME/.oh-my-zsh"
-
-# Set name of the theme to load --- if set to "random", it will
-# load a random theme each time oh-my-zsh is loaded, in which case,
-# to know which specific one was loaded, run: echo $RANDOM_THEME
-# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="af-magic"
-
-# ZSH Plugins
-plugins=(git)
-
-source $ZSH/oh-my-zsh.sh
-
 # User configuration
 export LANG=en_US.UTF-8
 export EDITOR='nvim'
+
+# Firefox wayland:
+if [[ "$XDG_SESSION_TYPE" == "wayland" ]]; then
+  export MOZ_ENABLE_WAYLAND=1
+fi
 
 function fman() {
   manpage="echo {} | sed 's/[()]/ /g' | awk '{print \$2 \" \" \$1}'"
@@ -68,14 +73,13 @@ function rgr() {
       --bind 'enter:become(nvim {1} +{2})'
 }
 
-# Personal aliases
+# Aliases
 function alias_if_cmd_exists() {
   if command -v $2 &> /dev/null; then
     alias $1
   fi
 }
 
-alias vim="nvim"
 alias_if_cmd_exists ls="eza --icons" eza
 
 eval "$(fzf --zsh)"
