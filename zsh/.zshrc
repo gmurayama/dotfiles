@@ -82,5 +82,6 @@ function alias_if_cmd_exists() {
 
 alias_if_cmd_exists ls="eza --icons" eza
 
+command -v flux >/dev/null && . <(flux completion zsh)
 eval "$(fzf --zsh)"
 eval "$(zoxide init --cmd cd zsh)"
