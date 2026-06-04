@@ -19,7 +19,15 @@ config.switch_to_last_active_tab_when_closing_tab = true
 config.use_fancy_tab_bar = false
 config.tab_max_width = 24
 
+-- https://github.com/wezterm/wezterm/issues/4278
+for _, gpu in ipairs(wezterm.gui.enumerate_gpus()) do
+	if gpu.device_type == "DiscreteGpu" then
+		config.webgpu_preferred_adapter = gpu
+		break
+	end
+end
 config.front_end = "WebGpu"
+config.webgpu_power_preference = "HighPerformance"
 
 config.background = {
 	{
