@@ -36,4 +36,21 @@ else
   -- Debugger
   vim.keymap.set("n", "<F11>", "<leader>di", { desc = "Step into", remap = true })
   vim.keymap.set("n", "<F10>", "<leader>dO", { desc = "Step over", remap = true })
+
+  -- :Gitsigns change base <branch> --global
+  -- :Gitsigns setqflist all
+  vim.keymap.set("n", "<leader>gr", function()
+    local branches = vim.fn.systemlist(
+      "git for-each-ref --format='%(refname:short)' --exclude='refs/remotes/*/HEAD' refs/heads refs/remotes"
+    )
+    vim.ui.select(branches, { prompt = "Gitsigns base:" }, function(branch)
+      if not branch then
+        return
+      end
+      local gs = require("gitsigns")
+      gs.change_base(branch, true, function()
+        gs.setqflist("all")
+      end)
+    end)
+  end, { desc = "Gitsigns: change base (global) + qflist" })
 end
