@@ -43,14 +43,20 @@ else
     local branches = vim.fn.systemlist(
       "git for-each-ref --format='%(refname:short)' --exclude='refs/remotes/*/HEAD' refs/heads refs/remotes"
     )
-    vim.ui.select(branches, { prompt = "Gitsigns base:" }, function(branch)
+    vim.ui.select(branches, { prompt = "Branches:" }, function(branch)
       if not branch then
         return
       end
+      -- `git merge-base <branch> HEAD` three-dot diff equivalent
+      local base = vim.fn.systemlist("git merge-base " .. vim.fn.shellescape(branch) .. " HEAD")[1]
+      if vim.v.shell_error ~= 0 or not base or base == "" then
+        vim.notify("Gitsigns: no merge-base with " .. branch, vim.log.levels.ERROR)
+        return
+      end
       local gs = require("gitsigns")
-      gs.change_base(branch, true, function()
+      gs.change_base(base, true, function()
         gs.setqflist("all")
       end)
     end)
-  end, { desc = "Gitsigns: change base (global) + qflist" })
+  end, { desc = "Gitsigns: diff current branch with another branch" })
 end
