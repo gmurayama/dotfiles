@@ -14,6 +14,11 @@ local custom = {
   {
     "itchyny/vim-qfedit",
   },
+  {
+    "zion-off/mole.nvim",
+    dependencies = { "MunifTanjim/nui.nvim" },
+    opts = {},
+  },
 }
 
 return {
